@@ -823,6 +823,56 @@ button:active {
   flex-direction: column;
 }
 
+.chart-wrapper {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-wrapper-scrollable {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #FF720D #f1f1f1;
+}
+
+.chart-wrapper-scrollable::-webkit-scrollbar {
+  height: 8px;
+}
+
+.chart-wrapper-scrollable::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.chart-wrapper-scrollable::-webkit-scrollbar-thumb {
+  background: #FF720D;
+  border-radius: 4px;
+}
+
+.chart-wrapper-scrollable::-webkit-scrollbar-thumb:hover {
+  background: #E6650B;
+}
+
+.dark-mode .chart-wrapper-scrollable::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.dark-mode .chart-wrapper-scrollable::-webkit-scrollbar-thumb {
+  background: #FF720D;
+}
+
+.chart-wrapper-scrollable>div {
+  min-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .chart-wrapper-scrollable>div {
+    min-width: 600px;
+  }
+}
+
 /* Ensure chart containers fill available space */
 #transaction-bar-chart,
 #transaction-donut-chart {
@@ -2238,7 +2288,7 @@ button:active {
 
 .map-search-wrapper {
   position: relative;
-  z-index: 1000;
+  /* z-index: 1000; */
 }
 
 .map-search-input {

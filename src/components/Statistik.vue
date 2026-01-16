@@ -50,13 +50,15 @@
         <b-tab title="Dashboard" active>
           <div class="tab-content mt-4">
             <!-- Transaksi Tahunan Chart -->
-            <b-card class="chart-card mb-4">
+            <b-card class="chart-card mb-4"> 
               <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="card-title mb-0">Transaksi Tahunan</h5>
               </div>
-              <div id="transaksi-tahunan-chart"></div>
-                 <!-- Action Buttons -->
-              <div class="d-flex gap-3 mb-4">
+              <div class="chart-wrapper">
+                <div id="transaksi-tahunan-chart"></div>
+              </div>
+              <!-- Action Buttons -->
+              <div class="d-flex gap-3 mt-4">
                 <button 
                   class="btn btn-action" 
                   :class="{ 'btn-action-active': showDataDetail }"
@@ -108,7 +110,9 @@
                       </button>
                     </div>
                   </div>
-                  <div id="data-koperasi-chart"></div>
+                  <div class="chart-wrapper">
+                    <div id="data-koperasi-chart"></div>
+                  </div>
                   <!-- Data Detail Table -->
                   <div v-show="showDataKoperasiDetail" class="mt-4">
                     <table class="table table-sm data-koperasi-table">
@@ -169,7 +173,9 @@
                       </button>
                     </div>
                   </div>
-                  <div id="data-transaksi-chart"></div>
+                  <div class="chart-wrapper">
+                    <div id="data-transaksi-chart"></div>
+                  </div>
                   <!-- Data Detail Table -->
                   <div v-show="showDataTransaksiDetail" class="mt-4">
                     <!-- Filter Tahun -->
@@ -205,7 +211,9 @@
                   <div class="d-flex justify-content-between align-items-center mb-4">
                     <h5 class="card-title mb-0">Koperasi Berdasarkan Sektor Usaha</h5>
                   </div>
-                  <div id="koperasi-sektor-chart"></div>
+                  <div class="chart-wrapper">
+                    <div id="koperasi-sektor-chart"></div>
+                  </div>
                   <div class="d-flex mt-2 gap-2">
                       <button 
                         class="btn btn-sm btn-action mr-2" 
@@ -238,7 +246,9 @@
                   <div class="d-flex justify-content-between align-items-center mb-4">
                     <h5 class="card-title mb-0">Koperasi Berdasarkan Bentuk Koperasi</h5>
                   </div>
-                  <div id="koperasi-bentuk-chart"></div>
+                  <div class="chart-wrapper">
+                    <div id="koperasi-bentuk-chart"></div>
+                  </div>
                   <div class="d-flex mt-2 gap-2">
                       <button 
                         class="btn btn-sm btn-action mr-2" 
@@ -268,14 +278,16 @@
               </b-col>
             </b-row>
 
-            <!-- Koperasi Jenis & Kelompok Charts Row -->
+            <!-- Koperasi Jenis Chart Row -->
             <b-row class="mb-4">
               <b-col cols="12" lg="6" class="mb-4">
                 <b-card class="chart-card">
                   <div class="d-flex justify-content-between align-items-center mb-4">
                     <h5 class="card-title mb-0">Koperasi Berdasarkan Jenis Koperasi</h5>
                   </div>
-                  <div id="koperasi-jenis-chart"></div>
+                  <div class="chart-wrapper">
+                    <div id="koperasi-jenis-chart"></div>
+                  </div>
                   <div class="d-flex mt-2 gap-2">
                     <button 
                       class="btn btn-sm btn-action mr-2" 
@@ -306,30 +318,32 @@
               <b-col cols="12" lg="6" class="mb-4">
                 <b-card class="chart-card">
                   <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h5 class="card-title mb-0">Koperasi Berdasarkan Kelompok Koperasi</h5>
+                    <h5 class="card-title mb-0">Data Aktivasi</h5>
+                    <div class="d-flex gap-3">
+                      <button 
+                        class="btn btn-sm btn-action" 
+                        :class="{ 'btn-action-active': showDataAktivasiDetail }"
+                        @click="toggleDataAktivasiDetail"
+                      >
+                        <i class="ri-table-line mr-2"></i>
+                        data detail
+                      </button>
+                      <button class="btn btn-sm btn-action">
+                        <i class="ri-download-cloud-line mr-1"></i>
+                        backup data
+                      </button>
+                    </div>
                   </div>
-                  <div id="koperasi-kelompok-chart"></div>
-                  <div class="d-flex mt-2 gap-2">
-                    <button 
-                      class="btn btn-sm btn-action mr-2" 
-                      :class="{ 'btn-action-active': showDataKelompokDetail }"
-                      @click="toggleDataKelompokDetail"
-                    >
-                      <i class="ri-table-line mr-1"></i>
-                      data detail
-                    </button>
-                    <button class="btn btn-sm btn-action">
-                      <i class="ri-download-cloud-line mr-1"></i>
-                      backup data
-                    </button>
+                  <div class="chart-wrapper chart-wrapper-scrollable">
+                    <div id="aktivasi-chart"></div>
                   </div>
                   <!-- Data Detail Table -->
-                  <div v-show="showDataKelompokDetail" class="mt-4">
-                    <table class="table table-sm data-kelompok-table">
+                  <div v-show="showDataAktivasiDetail" class="mt-4">
+                    <table class="table table-sm data-aktivasi-table">
                       <tbody>
-                        <tr v-for="(item, index) in kelompokKoperasiDetail" :key="index">
-                          <td class="font-weight-bold">{{ item.label }}</td>
-                          <td>{{ item.percentage }}%</td>
+                        <tr v-for="(item, index) in aktivasiDetail" :key="index">
+                          <td class="font-weight-bold">{{ item.year }}</td>
+                          <td>{{ item.value }}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -338,9 +352,45 @@
               </b-col>
             </b-row>
 
+            <!-- Koperasi Berdasarkan Kelompok Koperasi - Full Width -->
+            <b-card class="chart-card mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="card-title mb-0">Koperasi Berdasarkan Kelompok Koperasi</h5>
+              </div>
+              <div class="chart-wrapper chart-wrapper-scrollable">
+                <div id="koperasi-kelompok-chart"></div>
+              </div>
+              <!-- Action Buttons -->
+              <div class="d-flex gap-3 mt-4">
+                <button 
+                  class="btn btn-action" 
+                  :class="{ 'btn-action-active': showDataKelompokDetail }"
+                  @click="toggleDataKelompokDetail"
+                >
+                  <i class="ri-table-line mr-2"></i>
+                  data detail
+                </button>
+                <button class="btn btn-action">
+                  <i class="ri-download-cloud-line mr-1"></i>
+                  backup data
+                </button>
+              </div>
+              <!-- Data Detail Table -->
+              <div v-show="showDataKelompokDetail" class="mt-4">
+                <table class="table table-sm data-kelompok-table">
+                  <tbody>
+                    <tr v-for="(item, index) in kelompokKoperasiDetail" :key="index">
+                      <td class="font-weight-bold">{{ item.label }}</td>
+                      <td>{{ item.percentage }}%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </b-card>
+
               <!-- Additional Charts Row -->
               <b-row class="mb-4">
-              <b-col cols="12" lg="12" class="mb-4">
+              <!-- <b-col cols="12" lg="12" class="mb-4">
                 <b-card class="chart-card">
                   <div class="d-flex justify-content-between align-items-center mb-4">
                     <h5 class="card-title mb-0">Data Aktivasi</h5>
@@ -359,8 +409,9 @@
                       </button>
                     </div>
                   </div>
-                  <div id="aktivasi-chart"></div>
-                  <!-- Data Detail Table -->
+                  <div class="chart-wrapper chart-wrapper-scrollable">
+                    <div id="aktivasi-chart"></div>
+                  </div>
                   <div v-show="showDataAktivasiDetail" class="mt-4">
                     <table class="table table-sm data-aktivasi-table">
                       <tbody>
@@ -372,7 +423,7 @@
                     </table>
                   </div>
                 </b-card>
-              </b-col>
+              </b-col> -->
               <!-- <b-col cols="12" lg="4" class="mb-4">
                 <b-card class="chart-card">
                   <div class="d-flex justify-content-between align-items-center mb-4">
@@ -861,7 +912,8 @@ export default {
           chart: {
             type: 'bar',
             height: 400,
-            toolbar: { show: false }
+            toolbar: { show: false },
+            width: '100%'
           },
           colors: colors,
           plotOptions: {
@@ -1270,7 +1322,8 @@ export default {
           series: [7.1, 92.9],
           chart: {
             type: 'pie',
-            height: 300
+            height: 300,
+            width: '100%'
           },
           labels: ['Active', 'Inactive'],
           colors: ['#10b981', '#3b82f6'],
@@ -1313,7 +1366,8 @@ export default {
           chart: {
             type: 'bar',
             height: 300,
-            toolbar: { show: false }
+            toolbar: { show: false },
+            width: '100%'
           },
           colors: colors,
           plotOptions: {
@@ -1390,7 +1444,8 @@ export default {
           chart: {
             type: 'bar',
             height: 300,
-            toolbar: { show: false }
+            toolbar: { show: false },
+            width: '100%'
           },
           colors: colors,
           plotOptions: {
@@ -1460,27 +1515,28 @@ export default {
         const percentages = this.sektorUsahaDetail.map(item => parseFloat(item.percentage))
         const labels = this.sektorUsahaDetail.map(item => item.label)
         const colors = ['#10b981', '#06b6d4', '#3b82f6', '#FF720D', '#06b6d4', '#10b981', '#FF720D', '#06b6d4', '#10b981']
+        const isDark = document.body.classList.contains('dark-mode')
 
+        // Use bar chart for data > 6 items
         const options = {
-          series: percentages,
+          series: [{
+            name: 'Persentase',
+            data: percentages
+          }],
           chart: {
-            type: 'donut',
-            height: 350
+            type: 'bar',
+            height: 400,
+            toolbar: { show: false },
+            width: '100%'
           },
-          labels: labels,
           colors: colors,
           plotOptions: {
-            pie: {
-              donut: {
-                size: '70%',
-                labels: {
-                  show: true,
-                  total: {
-                    show: true,
-                    label: 'Total',
-                    formatter: () => '100%'
-                  }
-                }
+            bar: {
+              horizontal: true,
+              barHeight: '70%',
+              borderRadius: 4,
+              dataLabels: {
+                position: 'right'
               }
             }
           },
@@ -1488,17 +1544,38 @@ export default {
             enabled: true,
             formatter: (val) => {
               return val.toFixed(1) + '%'
+            },
+            style: {
+              fontSize: '12px',
+              colors: [isDark ? '#e5e7eb' : '#1f2937']
             }
           },
-          legend: {
-            position: 'bottom',
-            fontSize: '12px',
-            itemMargin: {
-              horizontal: 5,
-              vertical: 5
+          xaxis: {
+            categories: labels,
+            labels: {
+              style: {
+                colors: isDark ? '#9ca3af' : '#6b7280',
+                fontSize: '12px'
+              },
+              formatter: (val) => {
+                return val.toFixed(1) + '%'
+              }
             }
+          },
+          yaxis: {
+            labels: {
+              style: {
+                colors: isDark ? '#9ca3af' : '#6b7280',
+                fontSize: '12px'
+              }
+            }
+          },
+          grid: {
+            borderColor: isDark ? '#4b5563' : '#e5e7eb',
+            strokeDashArray: 4
           },
           tooltip: {
+            theme: isDark ? 'dark' : 'light',
             y: {
               formatter: (val) => {
                 return val.toFixed(1) + '%'
@@ -1523,7 +1600,8 @@ export default {
           series: percentages,
           chart: {
             type: 'donut',
-            height: 350
+            height: 350,
+            width: '100%'
           },
           labels: labels,
           colors: colors,
@@ -1581,7 +1659,8 @@ export default {
           series: percentages,
           chart: {
             type: 'donut',
-            height: 350
+            height: 350,
+            width: '100%'
           },
           labels: labels,
           colors: colors,
@@ -1633,30 +1712,36 @@ export default {
         const self = this
         const percentages = this.kelompokKoperasiDetail.map(item => parseFloat(item.percentage))
         const labels = this.kelompokKoperasiDetail.map(item => item.label)
-        // Generate colors for many segments
-        const colorPalette = ['#FF720D', '#10b981', '#3b82f6', '#06b6d4', '#6366f1', '#ef4444', '#f97316', '#84cc16', '#eab308', '#a855f7', '#ec4899', '#14b8a6', '#0ea5e9', '#8b5cf6', '#f59e0b', '#06b6d4', '#10b981', '#3b82f6', '#FF720D', '#6366f1', '#ef4444', '#f97316', '#84cc16', '#eab308', '#a855f7', '#ec4899', '#14b8a6', '#0ea5e9', '#8b5cf6', '#f59e0b', '#06b6d4', '#10b981', '#3b82f6', '#FF720D', '#6366f1', '#ef4444', '#f97316', '#84cc16', '#eab308', '#a855f7', '#ec4899', '#14b8a6', '#0ea5e9', '#8b5cf6', '#f59e0b']
-        const colors = colorPalette.slice(0, labels.length)
+        const isDark = document.body.classList.contains('dark-mode')
+        
+        // Generate colors for many segments - cycling through color palette
+        const colorPalette = ['#10b981', '#3b82f6', '#FF720D', '#06b6d4', '#6366f1', '#ef4444', '#f97316', '#84cc16', '#eab308', '#a855f7', '#ec4899', '#14b8a6', '#0ea5e9', '#8b5cf6', '#f59e0b']
+        const colors = []
+        for (let i = 0; i < labels.length; i++) {
+          colors.push(colorPalette[i % colorPalette.length])
+        }
 
+        // Vertical bar chart like Transaksi Tahunan
         const options = {
-          series: percentages,
+          series: [{
+            name: 'Persentase',
+            data: percentages
+          }],
           chart: {
-            type: 'donut',
-            height: 500
+            type: 'bar',
+            height: 450,
+            toolbar: { show: false },
+            width: '100%'
           },
-          labels: labels,
           colors: colors,
           plotOptions: {
-            pie: {
-              donut: {
-                size: '70%',
-                labels: {
-                  show: true,
-                  total: {
-                    show: true,
-                    label: 'Total',
-                    formatter: () => '100%'
-                  }
-                }
+            bar: {
+              horizontal: false,
+              columnWidth: '60%',
+              borderRadius: 4,
+              distributed: true, // Use different colors for each bar
+              dataLabels: {
+                position: 'top'
               }
             }
           },
@@ -1664,19 +1749,41 @@ export default {
             enabled: true,
             formatter: (val) => {
               return val.toFixed(1) + '%'
+            },
+            offsetY: -20,
+            style: {
+              fontSize: '11px',
+              colors: [isDark ? '#e5e7eb' : '#1f2937']
             }
           },
-          legend: {
-            position: 'bottom',
-            fontSize: '11px',
-            itemMargin: {
-              horizontal: 3,
-              vertical: 3
-            },
-            height: 'auto',
-            maxHeight: 200
+          xaxis: {
+            categories: labels,
+            labels: {
+              style: {
+                colors: isDark ? '#9ca3af' : '#6b7280',
+                fontSize: '11px'
+              },
+              rotate: -45,
+              rotateAlways: true
+            }
+          },
+          yaxis: {
+            labels: {
+              style: {
+                colors: isDark ? '#9ca3af' : '#6b7280',
+                fontSize: '12px'
+              },
+              formatter: (val) => {
+                return val.toFixed(1) + '%'
+              }
+            }
+          },
+          grid: {
+            borderColor: isDark ? '#4b5563' : '#e5e7eb',
+            strokeDashArray: 4
           },
           tooltip: {
+            theme: isDark ? 'dark' : 'light',
             y: {
               formatter: (val) => {
                 return val.toFixed(1) + '%'

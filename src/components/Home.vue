@@ -302,7 +302,9 @@
               </span>
             </div>
           </div>
-          <div id="transaction-bar-chart"></div>
+          <div class="chart-wrapper chart-wrapper-scrollable">
+            <div id="transaction-bar-chart"></div>
+          </div>
         </b-card>
       </b-col>
       <b-col cols="12" lg="4" class="mb-4 d-flex">
@@ -310,7 +312,9 @@
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h5 class="card-title mb-0">Perbandingan Total Transaksi</h5>
           </div>
-          <div id="transaction-donut-chart"></div>
+          <div class="chart-wrapper">
+            <div id="transaction-donut-chart"></div>
+          </div>
           <div class="chart-stats mt-4">
             <div class="stat-item">
               <span class="stat-dot" style="background-color: #10b981;"></span>
@@ -461,7 +465,8 @@ export default {
           series: [transactionData[2021], transactionData[2022], transactionData[2023]],
           chart: {
             type: 'donut',
-            height: 350
+            height: 350,
+            width: '100%'
           },
           labels: ['2021', '2022', '2023'],
           colors: ['#10b981', '#3b82f6', '#FF720D'],
